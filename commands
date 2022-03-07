@@ -1,0 +1,16 @@
+npm init
+npm i express
+npm i -D nodemon
+npm i mongoose
+npm i dotenv
+
+create index.js
+
+Package.json:
+    "scripts": {
+        "dev": "nodemon index.js",
+        "start": "node index.js"
+    },
+
+    add:
+         "type": "module",
