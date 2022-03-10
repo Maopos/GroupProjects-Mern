@@ -31,7 +31,7 @@ const autenticate = async (req, res) => {
     return res.status(400).json({ msg: error.message });
   }
 
-  // user confirmed??
+  // user confirmed???
   if (!user.confirm) {
     const error = new Error("Your account has not been confirmed yet...");
     return res.status(403).json({ msg: error.message });
