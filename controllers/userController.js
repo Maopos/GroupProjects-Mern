@@ -38,6 +38,16 @@ const autenticate = async (req, res) => {
   }
 
   // user pasword confirm
+  if (await user.checkPassword(password)) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    const error = new Error("Incorrect password...");
+    return res.status(403).json({ msg: error.message });
+  }
 };
 
 export { register, autenticate };
