@@ -1,10 +1,11 @@
-// 13. createuser Routes
+// 13. createUser Routes
 import express from "express";
+// 17. import controller
+import { register } from "../controllers/userController.js";
 
-const userRoutes = express.Router();
+const router = express.Router();
 
-userRoutes.get("/", (req, res) => {
-  res.send("Users");
-});
+// 13.1 Routes
+router.post("/", register);
 
-export default userRoutes;
+export default router;

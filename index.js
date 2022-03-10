@@ -4,10 +4,13 @@ import express from "express";
 import connectDb from "./config/db.js";
 import dotenv from "dotenv";
 // 13. import Routes
-import userRoutes from "./routes/userRoutes.js";
+import router from "./routes/userRoutes.js";
+
+// 14. create directory controllers/userController.js
 
 // 2.1 Run server
 const app = express();
+app.use(express.json());
 
 // 8. Connect mongoDb
 dotenv.config();
@@ -15,11 +18,13 @@ connectDb();
 
 // 9. create directory models/User.js
 
-// 12. create Routing create directory routes/userRoutes.js
+// 12. create Routing
 app.get("/", (req, res) => {
   res.send("📡 Welcome to OurProjects Server!!!");
 });
-app.use("/api/users", userRoutes);
+
+// 12.1 create directory routes/userRoutes.js
+app.use("/api/users", router);
 
 // 2.2 Run server
 const PORT = process.env.PORT || 4000;

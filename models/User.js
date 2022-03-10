@@ -1,5 +1,7 @@
 // 10. Create User Model
 import mongoose from "mongoose";
+// npm i bcrypt
+import bcrypt from "bcrypt";
 
 const UserSchema = mongoose.Schema(
   {
@@ -29,6 +31,16 @@ const UserSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+// Hash password
+UserSchema.pre("save", async function (next) {
+  // prevent rehash
+  if (!this.isModified("password")) {
+    next();
+  }
+  // Hash
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
 const User = mongoose.model("User", UserSchema);
 export default User;
