@@ -5,7 +5,9 @@ import {
   register,
   autenticate,
   confirm,
-  forgotPassword
+  forgotPassword,
+  checkToken,
+  newPassword,
 } from "../controllers/userController.js";
 
 const router = express.Router();
@@ -14,6 +16,8 @@ const router = express.Router();
 router.post("/", register);
 router.post("/login", autenticate);
 router.get("/confirm/:token", confirm);
-router.post('/forgotPassword', forgotPassword)
+router.post("/forgotPassword", forgotPassword);
+router.get("/forgotPassword/:token", checkToken);
+router.post("/forgotPassword/:token", newPassword);
 
 export default router;

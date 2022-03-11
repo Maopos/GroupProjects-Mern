@@ -72,7 +72,7 @@ const confirm = async (req, res) => {
   }
 };
 
-// ! forgotPassword
+// ! *** forgotPassword ***
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -82,7 +82,7 @@ const forgotPassword = async (req, res) => {
   }
   try {
     user.token = generateId();
-    await user.save()
+    await user.save();
     res.json({
       msg: "We have sent a link to your email to reset your password...",
     });
@@ -91,6 +91,45 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-export { register, autenticate, confirm, forgotPassword };
+// ! *** checkToken ***
+const checkToken = async (req, res) => {
+  const { token } = req.params;
+  const tokenExists = await User.findOne({ token });
+  if (tokenExists) {
+    res.json({ msg: "Valid username Token...!" });
+  } else {
+    const error = new Error("Username Token doesn`t exist...");
+    return res.status(400).json({ msg: error.message });
+  }
+};
+
+// ! *** newPassword ***
+const newPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  const user = await User.findOne({ token });
+  if (user) {
+    user.password = password;
+    user.token = "";
+    try {
+      await user.save();
+      res.json({ msg: "New password updated successfully" });
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    const error = new Error("Username Token doesn`t exist...");
+    return res.status(400).json({ msg: error.message });
+  }
+};
+
+export {
+  register,
+  autenticate,
+  confirm,
+  forgotPassword,
+  checkToken,
+  newPassword,
+};
 
 // 16. go to userRoutes.js
