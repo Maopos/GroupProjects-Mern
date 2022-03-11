@@ -3,6 +3,7 @@ import generateId from "../helpers/generateId.js";
 import generateJwt from "../helpers/generateJwt.js";
 
 // 15. create this
+// ! *** Register ***
 const register = async (req, res) => {
   // avoid duplicate records
   const { email } = req.body;
@@ -23,6 +24,7 @@ const register = async (req, res) => {
   }
 };
 
+// ! *** Autenticate ***
 const autenticate = async (req, res) => {
   // user exits??
   const { email, password } = req.body;
@@ -44,7 +46,7 @@ const autenticate = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateJwt(user._id)
+      token: generateJwt(user._id),
     });
   } else {
     const error = new Error("Incorrect password...");
@@ -52,6 +54,24 @@ const autenticate = async (req, res) => {
   }
 };
 
-export { register, autenticate };
+// ! *** Confirm user account ***
+const confirm = async (req, res) => {
+  const { token } = req.params;
+  const userConfirm = await User.findOne({ token });
+  if (!userConfirm) {
+    const error = new Error("Username Token doesn`t exist...");
+    return res.status(400).json({ msg: error.message });
+  }
+  try {
+    userConfirm.confirm = true;
+    userConfirm.token = "";
+    userConfirm.save();
+    res.json({msg: 'User is already confirmed...'});
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { register, autenticate, confirm };
 
 // 16. go to userRoutes.js
