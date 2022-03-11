@@ -66,12 +66,31 @@ const confirm = async (req, res) => {
     userConfirm.confirm = true;
     userConfirm.token = "";
     userConfirm.save();
-    res.json({msg: 'User is already confirmed...'});
+    res.json({ msg: "User is already confirmed..." });
   } catch (error) {
     console.log(error);
   }
 };
 
-export { register, autenticate, confirm };
+// ! forgotPassword
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    const error = new Error("Username doesn`t exist...");
+    return res.status(400).json({ msg: error.message });
+  }
+  try {
+    user.token = generateId();
+    await user.save()
+    res.json({
+      msg: "We have sent a link to your email to reset your password...",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { register, autenticate, confirm, forgotPassword };
 
 // 16. go to userRoutes.js

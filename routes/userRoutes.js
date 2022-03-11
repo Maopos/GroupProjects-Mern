@@ -5,6 +5,7 @@ import {
   register,
   autenticate,
   confirm,
+  forgotPassword
 } from "../controllers/userController.js";
 
 const router = express.Router();
@@ -13,5 +14,6 @@ const router = express.Router();
 router.post("/", register);
 router.post("/login", autenticate);
 router.get("/confirm/:token", confirm);
+router.post('/forgotPassword', forgotPassword)
 
 export default router;
