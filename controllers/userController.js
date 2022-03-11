@@ -123,6 +123,12 @@ const newPassword = async (req, res) => {
   }
 };
 
+// ! *** profile ***
+const profile = async (req, res) => {
+  const { user } = req;
+  res.json(user);
+};
+
 export {
   register,
   autenticate,
@@ -130,6 +136,7 @@ export {
   forgotPassword,
   checkToken,
   newPassword,
+  profile,
 };
 
 // 16. go to userRoutes.js
