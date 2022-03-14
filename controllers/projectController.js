@@ -19,7 +19,20 @@ const newProject = async (req, res) => {
 };
 
 // ! *** Show One Projects ***
-const showOneProject = async (req, res) => {};
+const showOneProject = async (req, res) => {
+  const { id } = req.params;
+  const project = await Project.findById(id);
+
+  if (!project) {
+    const error = new Error("Project doesn`t exist...");
+    return res.status(404).json({ msg: error.message });
+  }
+  if (project.creator.toString() !== req.user._id.toString()) {
+    const error = new Error("Invalid action...");
+    return res.status(404).json({ msg: error.message });
+  }
+  res.json(project);
+};
 
 // ! *** Edit Project ***
 const editProject = async (req, res) => {};

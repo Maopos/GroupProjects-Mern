@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.get("/", checkAuth, showAllProjects);
 router.post("/", checkAuth, newProject);
-router.post("/:id", checkAuth, showOneProject);
+router.get("/:id", checkAuth, showOneProject);
 router.put("/:id", checkAuth, editProject);
 router.delete("/:id", checkAuth, deleteProject);
 router.get("/tasks/:id", checkAuth, showTasks);
