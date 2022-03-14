@@ -4,7 +4,8 @@ import express from "express";
 import connectDb from "./config/db.js";
 import dotenv from "dotenv";
 // 13. import Routes
-import router from "./routes/userRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+import projectRouter from "./routes/userRoutes.js";
 
 // 14. create directory controllers/userController.js
 
@@ -24,7 +25,8 @@ app.get("/", (req, res) => {
 });
 
 // 12.1 create directory routes/userRoutes.js
-app.use("/api/users", router);
+app.use("/api/users", userRouter);
+app.use("/api/projects", projectRouter);
 
 // 2.2 Run server
 const PORT = process.env.PORT || 4000;
@@ -32,7 +34,7 @@ app.listen(PORT, () => {
   console.log("");
   console.log("==================================");
   console.log("");
-  console.log(`✅ Server run on port: ${PORT}!!!`);
+  console.log(`✅ Server runs on port: ${PORT}!!!`);
 });
 
 // 3. create directory config/db.js
