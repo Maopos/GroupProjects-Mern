@@ -18,7 +18,7 @@ const newProject = async (req, res) => {
   }
 };
 
-// ! *** Show One Projects ***
+// ! *** Show One Project ***
 const showOneProject = async (req, res) => {
   const { id } = req.params;
   const project = await Project.findById(id);
@@ -35,10 +35,52 @@ const showOneProject = async (req, res) => {
 };
 
 // ! *** Edit Project ***
-const editProject = async (req, res) => {};
+const editProject = async (req, res) => {
+  const { id } = req.params;
+  const project = await Project.findById(id);
+
+  if (!project) {
+    const error = new Error("Project doesn`t exist...");
+    return res.status(404).json({ msg: error.message });
+  }
+  if (project.creator.toString() !== req.user._id.toString()) {
+    const error = new Error("Invalid action...");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  project.name = req.body.name || project.name;
+  project.description = req.body.description || project.description;
+  project.releaseDate = req.body.releaseDate || project.releaseDate;
+  project.client = req.body.client || project.client;
+
+  try {
+    const savedProject = await project.save();
+    res.json(savedProject);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // ! *** Delete Project ***
-const deleteProject = async (req, res) => {};
+const deleteProject = async (req, res) => {
+  const { id } = req.params;
+  const project = await Project.findById(id);
+
+  if (!project) {
+    const error = new Error("Project doesn`t exist...");
+    return res.status(404).json({ msg: error.message });
+  }
+  if (project.creator.toString() !== req.user._id.toString()) {
+    const error = new Error("Invalid action...");
+    return res.status(404).json({ msg: error.message });
+  }
+  try {
+    await project.deleteOne();
+    res.json({ msg: "Project deleted..." });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // ! *** Add Collaborator ***
 const addCollaborator = async (req, res) => {};
