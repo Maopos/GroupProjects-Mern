@@ -8,8 +8,8 @@ import {
   addCollaborator,
   deleteCollaborator,
   showTasks,
-} from "../controllers/projectController";
-import checkAuth from "../middleware/checkAuth";
+} from "../controllers/projectController.js";
+import checkAuth from "../middleware/checkAuth.js";
 
 const router = express.Router();
 

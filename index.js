@@ -5,7 +5,7 @@ import connectDb from "./config/db.js";
 import dotenv from "dotenv";
 // 13. import Routes
 import userRouter from "./routes/userRoutes.js";
-import projectRouter from "./routes/userRoutes.js";
+import projectRouter from "./routes/projectRoutes.js";
 
 // 14. create directory controllers/userController.js
 
@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
   res.send("📡 Welcome to OurProjects Server!!!");
 });
 
-// 12.1 create directory routes/userRoutes.js
+// 12.1 create directory routes
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
 

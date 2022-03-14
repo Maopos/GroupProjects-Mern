@@ -4,7 +4,16 @@ import Project from "../models/Project.js";
 const showAllProjects = async (req, res) => {};
 
 // ! *** Create new Project ***
-const newProject = async (req, res) => {};
+const newProject = async (req, res) => {
+  const project = new Project(req.body);
+  project.creator = req.user._id;
+  try {
+    const savedProject = await project.save();
+    res.json(savedProject);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // ! *** Show One Projects ***
 const showOneProject = async (req, res) => {};
