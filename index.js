@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 // 13. import Routes
 import userRouter from "./routes/userRoutes.js";
 import projectRouter from "./routes/projectRoutes.js";
+import taskRouter from "./routes/taskRoutes.js";
 
 // 14. create directory controllers/userController.js
 
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 // 12.1 create directory routes
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
+app.use('/api/tasks', taskRouter)
 
 // 2.2 Run server
 const PORT = process.env.PORT || 4000;

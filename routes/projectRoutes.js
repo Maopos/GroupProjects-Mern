@@ -11,15 +11,15 @@ import {
 } from "../controllers/projectController.js";
 import checkAuth from "../middleware/checkAuth.js";
 
-const router = express.Router();
+const projectRouter = express.Router();
 
-router.get("/", checkAuth, showAllProjects);
-router.post("/", checkAuth, newProject);
-router.get("/:id", checkAuth, showOneProject);
-router.put("/:id", checkAuth, editProject);
-router.delete("/:id", checkAuth, deleteProject);
-router.get("/tasks/:id", checkAuth, showTasks);
-router.post("/add-collaborator/:id", checkAuth, addCollaborator);
-router.post ("/delete-collaborator/:id", checkAuth, deleteCollaborator);
+projectRouter.get("/", checkAuth, showAllProjects);
+projectRouter.post("/", checkAuth, newProject);
+projectRouter.get("/:id", checkAuth, showOneProject);
+projectRouter.put("/:id", checkAuth, editProject);
+projectRouter.delete("/:id", checkAuth, deleteProject);
+projectRouter.get("/tasks/:id", checkAuth, showTasks);
+projectRouter.post("/add-collaborator/:id", checkAuth, addCollaborator);
+projectRouter.post ("/delete-collaborator/:id", checkAuth, deleteCollaborator);
 
-export default router;
+export default projectRouter;
