@@ -32,7 +32,12 @@ const showOneProject = async (req, res) => {
     const error = new Error("Invalid action...");
     return res.status(404).json({ msg: error.message });
   }
-  res.json(project);
+
+  const tasks = await Task.find().where("project").equals(project._id);
+  res.json({
+    project,
+    tasks,
+  });
 };
 
 // ! *** Edit Project ***
@@ -89,19 +94,6 @@ const addCollaborator = async (req, res) => {};
 // ! *** Delete Collaborator ***
 const deleteCollaborator = async (req, res) => {};
 
-// ! *** Show All Tasks ***
-const showTasks = async (req, res) => {
-  const { id } = req.params;
-  const project = await Project.findById(id);
-
-  if (!project) {
-    const error = new Error("Project doesn`t exist...");
-    return res.status(404).json({ msg: error.message });
-  }
-  const tasks = await Task.find().where("project").equals(id);
-  res.json({ tasks });
-};
-
 export {
   showAllProjects,
   newProject,
@@ -110,5 +102,4 @@ export {
   deleteProject,
   addCollaborator,
   deleteCollaborator,
-  showTasks,
 };
