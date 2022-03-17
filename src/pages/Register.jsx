@@ -1,13 +1,70 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Message from "../components/Message";
 
 const Register = () => {
+  // States
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Message State
+  const [message, setMessage] = useState({});
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if ([name, email, password, confirmPassword].includes("")) {
+      setMessage({ txt: "All fields are required...", error: true });
+      setTimeout(() => {
+        setMessage({});
+      }, 2000);
+      return;
+    }
+
+    if (password != confirmPassword) {
+      setMessage({ txt: "Both passwords must be equals...", error: true });
+      setTimeout(() => {
+        setMessage({});
+      }, 2000);
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage({
+        txt: "Password length must be greater than 5 and less than 10 characters...",
+        error: true,
+      });
+      setTimeout(() => {
+        setMessage({});
+      }, 5000);
+      return;
+    }
+
+    const newUser = { name, email, password };
+
+    console.log(newUser);
+
+    setName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+  const { txt } = message;
+
   return (
     <>
       <h3 className="text-sky-600 text-center font-thin text-4xl mb-2">
         Register and manage your{" "}
         <span className="text-slate-700 font-extralightlight">Projects.</span>{" "}
       </h3>
-      <form className="my-10 bg-white shadow-lg rounded-lg p-2 md:px-10 md:py-3">
+      <form
+        onSubmit={handleSubmit}
+        className="my-10 bg-white shadow-lg rounded-lg p-2 md:px-10 md:py-3"
+      >
+        {txt && <Message message={message} />}
         <div className="my-5">
           <label
             htmlFor="name"
@@ -21,6 +78,8 @@ const Register = () => {
             type="text"
             placeholder="Your full name"
             className="w-full shadow-md border mt-1 p-3 rounded font-thin"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="my-5">
@@ -36,6 +95,8 @@ const Register = () => {
             type="email"
             placeholder="Email address"
             className="w-full shadow-md border mt-1 p-3 rounded font-thin"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="my-5">
@@ -51,21 +112,25 @@ const Register = () => {
             type="password"
             placeholder="Password"
             className="w-full shadow-md border mt-1 p-3 rounded font-thin"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="my-5">
           <label
-            htmlFor="password2"
+            htmlFor="confirmPassword"
             className="text-gray-900 text-xl font-thin block"
           >
             Confirm Password
           </label>
           <input
-            id="password2"
+            id="confirmPassword"
             name=""
             type="password"
             placeholder="Confirm Password"
             className="w-full shadow-md border mt-1 p-3 rounded font-thin"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
         <input
