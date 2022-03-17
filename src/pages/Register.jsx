@@ -49,11 +49,14 @@ const Register = () => {
 
     // Create user in Api
     try {
-      const { data } = await axios.post("http://localhost:4000/api/users", {
-        name,
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND}/api/users`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
       setMessage({
         txt: data.msg,
         error: false,
@@ -61,6 +64,12 @@ const Register = () => {
       setTimeout(() => {
         setMessage({});
       }, 5000);
+
+      // Reset form
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
     } catch (error) {
       setMessage({
         txt: error.response.data.msg,
@@ -70,11 +79,6 @@ const Register = () => {
         setMessage({});
       }, 3000);
     }
-
-    setName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
   };
 
   const { txt } = message;
