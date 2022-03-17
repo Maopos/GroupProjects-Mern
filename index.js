@@ -8,11 +8,27 @@ import userRouter from "./routes/userRoutes.js";
 import projectRouter from "./routes/projectRoutes.js";
 import taskRouter from "./routes/taskRoutes.js";
 
+import cors from "cors";
+
 // 14. create directory controllers/userController.js
 
 // 2.1 Run server
 const app = express();
 app.use(express.json());
+
+// setup cors
+const whiteList = ["http://localhost:3000"];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whiteList.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Cors Error..."));
+    }
+  },
+};
+app.use(cors(corsOptions));
 
 // 8. Connect mongoDb
 dotenv.config();
@@ -28,7 +44,7 @@ app.get("/", (req, res) => {
 // 12.1 create directory routes
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
-app.use('/api/tasks', taskRouter)
+app.use("/api/tasks", taskRouter);
 
 // 2.2 Run server
 const PORT = process.env.PORT || 4000;
