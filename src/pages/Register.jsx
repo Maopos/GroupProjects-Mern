@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Message from "../components/Message";
+import axios from "axios";
 
 const Register = () => {
   // States
@@ -12,7 +13,7 @@ const Register = () => {
   // Message State
   const [message, setMessage] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if ([name, email, password, confirmPassword].includes("")) {
@@ -25,26 +26,50 @@ const Register = () => {
 
     if (password != confirmPassword) {
       setMessage({ txt: "Both passwords must be equals...", error: true });
+      setConfirmPassword("");
+      setPassword("");
       setTimeout(() => {
         setMessage({});
       }, 2000);
       return;
     }
 
-    if (password.length < 6) {
+    if (password.length < 6 || password.length > 9) {
       setMessage({
         txt: "Password length must be greater than 5 and less than 10 characters...",
         error: true,
       });
+      setConfirmPassword("");
+      setPassword("");
       setTimeout(() => {
         setMessage({});
       }, 5000);
       return;
     }
 
-    const newUser = { name, email, password };
-
-    console.log(newUser);
+    // Create user in Api
+    try {
+      const { data } = await axios.post("http://localhost:4000/api/users", {
+        name,
+        email,
+        password,
+      });
+      setMessage({
+        txt: data.msg,
+        error: false,
+      });
+      setTimeout(() => {
+        setMessage({});
+      }, 5000);
+    } catch (error) {
+      setMessage({
+        txt: error.response.data.msg,
+        error: true,
+      });
+      setTimeout(() => {
+        setMessage({});
+      }, 3000);
+    }
 
     setName("");
     setEmail("");
