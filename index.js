@@ -16,8 +16,14 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 
+
+
+// 8. Connect mongoDb
+dotenv.config();
+connectDb();
+
 // setup cors
-const whiteList = ["http://localhost:3000"];
+const whiteList = [process.env.FRONTEND];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -30,15 +36,11 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// 8. Connect mongoDb
-dotenv.config();
-connectDb();
-
 // 9. create directory models/User.js
 
 // 12. create Routing
 app.get("/", (req, res) => {
-  res.send("📡 Welcome to OurProjects Server!!!");
+  res.send("📡 Welcome to GroupProject Server!!!");
 });
 
 // 12.1 create directory routes
