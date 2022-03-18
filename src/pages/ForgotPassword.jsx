@@ -27,7 +27,7 @@ const ForgotPassword = () => {
 
           <input
             type="submit"
-            value="Login"
+            value="Send me a recovery email"
             className="text-white bg-sky-700 hover:bg-sky-600 w-full rounded 
           shadow-md font-light py-2 cursor-pointer mb-5 transition-colors"
           />
