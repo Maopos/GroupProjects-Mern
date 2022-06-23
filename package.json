@@ -23,6 +23,6 @@
     "nodemailer": "^6.7.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^1.19.4"
   }
 }

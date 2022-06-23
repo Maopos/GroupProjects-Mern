@@ -27,6 +27,7 @@ const createTask = async (req, res) => {
 // ! *** Show Task by Id ***
 const showTask = async (req, res) => {
   const { id } = req.params;
+  /* Populating the project field in the Task model. */
   const task = await Task.findById(id).populate("project");
 
   if (!task) {
