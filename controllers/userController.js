@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import generateId from "../helpers/generateId.js";
 import generateJwt from "../helpers/generateJwt.js";
-import { registerEmail } from "../helpers/emails.js";
+import { registerEmail, recoveryEmail } from "../helpers/emails.js";
 
 // 15. create this
 // ! *** Register ***
@@ -93,6 +93,13 @@ const forgotPassword = async (req, res) => {
   try {
     user.token = generateId();
     await user.save();
+
+    recoveryEmail({
+      name: user.name,
+      email: user.email,
+      token: user.token,
+    });
+
     res.json({
       msg: "We have sent a link to your email to reset your password...",
     });
