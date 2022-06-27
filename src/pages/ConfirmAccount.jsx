@@ -1,4 +1,4 @@
-import axios from "axios";
+import clienteAxios from "../config/clienteAxios";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Message from "../components/Message";
@@ -15,8 +15,8 @@ const ConfirmAccount = () => {
   useEffect(() => {
     const confirmAccount = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND}/api/users/confirm/${id}`;
-        const { data } = await axios.get(url);
+        const url = `/users/confirm/${id}`;
+        const { data } = await clienteAxios(url);
         setMessage({
           txt: data.msg,
           error: false,
@@ -43,7 +43,10 @@ const ConfirmAccount = () => {
       </h3>
       <div>{txt && <Message message={message} />}</div>
       {confirmedAccount && (
-        <Link to={"/"} className="text-sky-600 font-light block text-center mt-5">
+        <Link
+          to={"/"}
+          className="text-sky-600 font-light block text-center mt-5"
+        >
           Login here!
         </Link>
       )}
