@@ -4,11 +4,11 @@ export const registerEmail = async (data) => {
   const { name, email, token } = data;
 
   const transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     auth: {
-      user: "5e1d0e09b28e29",
-      pass: "b20efc07890812",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -29,11 +29,11 @@ export const recoveryEmail = async (data) => {
   const { name, email, token } = data;
 
   const transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     auth: {
-      user: "5e1d0e09b28e29",
-      pass: "b20efc07890812",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -48,6 +48,6 @@ export const recoveryEmail = async (data) => {
     <p>Follow the link below to reset your password:</p>
 
     <a href='${process.env.FRONTEND}/forgot-password/${token}'>Reset your password here!</a>
-    <p>If you did not request this, please ignore this message</p></div>`,
+    <p>If you did not request this, please ignore this message.</p></div>`,
   });
 };
