@@ -13,27 +13,32 @@ import ConfirmAccount from "./pages/ConfirmAccount";
 
 // ! Private Routes
 import Projects from "./pages/Projects";
+import NewProject from "./pages/NewProject";
 
 // ! Providers
 import { AuthProvider } from "./context/AuthProvider";
+import { ProjectProvider } from "./context/ProjectProvider";
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<AuthLayout />}>
-            <Route index element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route path="forgot-password/:token" element={<NewPassword />} />
-            <Route path="confirm/:id" element={<ConfirmAccount />} />
-          </Route>
+        <ProjectProvider>
+          <Routes>
+            <Route path="/" element={<AuthLayout />}>
+              <Route index element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="forgot-password" element={<ForgotPassword />} />
+              <Route path="forgot-password/:token" element={<NewPassword />} />
+              <Route path="confirm/:id" element={<ConfirmAccount />} />
+            </Route>
 
-          <Route path="projects" element={<PrivateRoute />}>
-            <Route index element={<Projects />} />
-          </Route>
-        </Routes>
+            <Route path="/projects" element={<PrivateRoute />}>
+              <Route index element={<Projects />} />
+              <Route path="createproject" element={<NewProject />}></Route>
+            </Route>
+          </Routes>
+        </ProjectProvider>
       </AuthProvider>
     </Router>
   );
