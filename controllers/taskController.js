@@ -60,7 +60,7 @@ const updateTask = async (req, res) => {
   task.name = req.body.name || task.name;
   task.description = req.body.description || task.description;
   task.priority = req.body.priority || task.priority;
-  task.releaseDate = req.body.releaseDate || task.releaseDate;
+  task.deliveryDate = req.body.deliveryDate || task.deliveryDate;
 
   try {
     const updatedTask = await task.save();

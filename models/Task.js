@@ -16,7 +16,7 @@ const TaskSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    releaseDate: {
+    deliveryDate: {
       type: Date,
       default: Date.now(),
     },

@@ -56,7 +56,7 @@ const editProject = async (req, res) => {
 
   project.name = req.body.name || project.name;
   project.description = req.body.description || project.description;
-  project.releaseDate = req.body.releaseDate || project.releaseDate;
+  project.deliveryDate = req.body.deliveryDate || project.deliveryDate;
   project.client = req.body.client || project.client;
 
   try {
