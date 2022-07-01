@@ -1,7 +1,7 @@
-import useProjects from "../hooks/useProject";
+import useProject from "../hooks/useProject";
 
 const Projects = () => {
-  const { projects } = useProjects();
+  const { projects } = useProject();
 
 
 

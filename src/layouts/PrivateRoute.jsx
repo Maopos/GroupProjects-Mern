@@ -15,9 +15,9 @@ const PrivateRoute = () => {
       {auth._id ? (
         <div className="bg-gray-100">
           <Header />
-          <div className="md: flex md:min-h-screen">
+          <div className="md:flex md:min-h-screen md:px-32">
             <SideBar />
-            <main className="flex-1 p-10">
+            <main className="flex-1 md:p-10 p-3">
               <Outlet />
             </main>
           </div>
