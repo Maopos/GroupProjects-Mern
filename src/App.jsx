@@ -14,6 +14,7 @@ import ConfirmAccount from "./pages/ConfirmAccount";
 // ! Private Routes
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
+import Project from "./components/Project";
 
 // ! Providers
 import { AuthProvider } from "./context/AuthProvider";
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="/projects" element={<PrivateRoute />}>
               <Route index element={<Projects />} />
               <Route path="createproject" element={<NewProject />}></Route>
+              <Route path=":id" element={<Project />}></Route>
             </Route>
           </Routes>
         </ProjectProvider>

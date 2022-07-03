@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, useEffect, createContext } from "react";
 import clienteAxios from "../config/clienteAxios";
 import { useNavigate } from "react-router-dom";
 
@@ -6,7 +6,7 @@ const ProjectContext = createContext();
 
 const ProjectProvider = ({ children }) => {
   // States
-  const [projects, setProjects] = useState(["hola", "mundillo..."]);
+  const [projects, setProjects] = useState([]);
   const [alert, setAlert] = useState({});
 
   const navigate = useNavigate();
@@ -18,6 +18,31 @@ const ProjectProvider = ({ children }) => {
     }, 3000);
   };
 
+  // ! Obtain all projects
+  useEffect(() => {
+    const obtainProjects = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          return;
+        }
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const { data } = await clienteAxios("/projects", config);
+        setProjects(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    obtainProjects();
+  }, []);
+
+  // ! Create project
   const createProject = async (project) => {
     try {
       const token = localStorage.getItem("token");
@@ -47,7 +72,13 @@ const ProjectProvider = ({ children }) => {
 
   return (
     <ProjectContext.Provider
-      value={{ projects, alert, createProject, setAlert, showAlert }}
+      value={{
+        projects,
+        alert,
+        createProject,
+        setAlert,
+        showAlert,
+      }}
     >
       {children}
     </ProjectContext.Provider>
