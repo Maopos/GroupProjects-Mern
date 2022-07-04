@@ -7,7 +7,10 @@ const ProjectContext = createContext();
 const ProjectProvider = ({ children }) => {
   // States
   const [projects, setProjects] = useState([]);
+  const [project, setProject] = useState({});
+
   const [alert, setAlert] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -16,6 +19,35 @@ const ProjectProvider = ({ children }) => {
     setTimeout(() => {
       setAlert({});
     }, 3000);
+  };
+
+  // ! Create project
+  const createProject = async (project) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clienteAxios.post("/projects", project, config);
+      setProjects([...projects, data]);
+      setAlert({
+        txt: "Project created successfully...",
+        error: false,
+      });
+      setTimeout(() => {
+        setAlert({});
+        navigate("/projects");
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // ! Obtain all projects
@@ -42,8 +74,9 @@ const ProjectProvider = ({ children }) => {
     obtainProjects();
   }, []);
 
-  // ! Create project
-  const createProject = async (project) => {
+  // ! Obtain a project
+  const obtainProject = async (id) => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -56,18 +89,12 @@ const ProjectProvider = ({ children }) => {
         },
       };
 
-      const { data } = await clienteAxios.post("/projects", project, config);
-      setAlert({
-        txt: "Project created successfully...",
-        error: false,
-      });
-      setTimeout(() => {
-        setAlert({});
-        navigate("/projects");
-      }, 3000);
+      const { data } = await clienteAxios(`/projects/${id}`, config);
+      setProject(data);
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   return (
@@ -75,9 +102,12 @@ const ProjectProvider = ({ children }) => {
       value={{
         projects,
         alert,
+        loading,
+        project,
         createProject,
         setAlert,
         showAlert,
+        obtainProject,
       }}
     >
       {children}

@@ -14,7 +14,7 @@ import ConfirmAccount from "./pages/ConfirmAccount";
 // ! Private Routes
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
-import Project from "./components/Project";
+import Project from "./pages/Project";
 
 // ! Providers
 import { AuthProvider } from "./context/AuthProvider";
