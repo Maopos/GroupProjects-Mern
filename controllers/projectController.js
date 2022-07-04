@@ -33,11 +33,7 @@ const showOneProject = async (req, res) => {
     return res.status(404).json({ msg: error.message });
   }
 
-  const tasks = await Task.find().where("project").equals(project._id);
-  res.json({
-    project,
-    tasks,
-  });
+  res.json(project);
 };
 
 // ! *** Edit Project ***
