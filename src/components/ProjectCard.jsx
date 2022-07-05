@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
 import { VscGoToFile, VscEdit, VscTrash } from "react-icons/vsc";
+import { useEffect } from "react";
+import useProject from "../hooks/useProject";
 
 const ProjectCard = ({ project }) => {
   const { name, _id, client } = project;
+  const { obtainProject } = useProject();
+
+  const handleClick = () => {
+    obtainProject(_id);
+  };
 
   return (
     <div className="bg-white mt-2 shadow-lg shadow-gray-300 p-2 rounded flex justify-between items-center">
@@ -18,8 +25,9 @@ const ProjectCard = ({ project }) => {
           <VscGoToFile />
         </Link>
         <Link
-          to={`/projects`}
+          to={`/projects/edit/${_id}`}
           className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
+          onClick={handleClick}
         >
           <VscEdit />
         </Link>

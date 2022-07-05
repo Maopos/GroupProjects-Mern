@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Message from "../components/Message";
 import useProject from "../hooks/useProject";
+import { useParams } from "react-router-dom";
 
 const FormProject = () => {
   // States
+  const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [client, setClient] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
 
-  const { createProject, alert, setAlert, showAlert } = useProject();
+  const { submitProject, alert, showAlert, project } = useProject();
+
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.id) {
+      setId(project._id);
+      setName(project.name);
+      setDescription(project.description);
+      setDeliveryDate(project.deliveryDate?.split("T")[0]);
+      setClient(project.client);
+    }
+  }, [params]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,10 +36,11 @@ const FormProject = () => {
       return;
     }
 
-    const newProject = { name, description, client, deliveryDate };
+    const newProject = { id, name, description, client, deliveryDate };
 
-    await createProject(newProject);
+    await submitProject(newProject);
 
+    setId(null);
     setName("");
     setClient("");
     setDescription("");
@@ -95,9 +110,17 @@ const FormProject = () => {
           onChange={(e) => setDeliveryDate(e.target.value)}
         />
       </div>
-      <button className="text-white text-sm bg-sky-600 rounded pb-1 w-full block text-center mt-5 shadow-lg shadow-gray-300 hover:bg-sky-700 transition-colors">
-        Save Project <span className="text-2xl">⎘</span>
-      </button>
+      {id ? (
+        <button className="text-white text-sm bg-sky-600 rounded p-1 w-full block text-center mt-5 shadow-lg shadow-gray-300 hover:bg-sky-700 transition-colors">
+          <p>Update Project ⟳</p>
+        </button>
+      ) : (
+        <button className="text-white text-sm bg-sky-600 rounded pb-1 w-full block text-center mt-5 shadow-lg shadow-gray-300 hover:bg-sky-700 transition-colors">
+          <p>
+            Save Project <span className="text-2xl">⎘</span>
+          </p>
+        </button>
+      )}
       {txt && <Message message={alert} />}
     </form>
   );

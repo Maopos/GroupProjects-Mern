@@ -21,7 +21,16 @@ const ProjectProvider = ({ children }) => {
     }, 3000);
   };
 
-  // ! Create project
+  // ! Submit project *
+  const submitProject = async (project) => {
+    if (project.id) {
+      await editProject(project);
+    } else {
+      await createProject(project);
+    }
+  };
+
+  // ! Create Project
   const createProject = async (project) => {
     try {
       const token = localStorage.getItem("token");
@@ -44,7 +53,47 @@ const ProjectProvider = ({ children }) => {
       setTimeout(() => {
         setAlert({});
         navigate("/projects");
-      }, 3000);
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ! Edit Project
+  const editProject = async (project) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clienteAxios.put(
+        `/projects/${project.id}`,
+        project,
+        config
+      );
+
+      // Sincronice state
+      const updatedProjects = projects.map((i) =>
+        i._id === data._id ? data : i
+      );
+
+      setProjects(updatedProjects);
+
+      setAlert({
+        txt: "Project updated successfully...",
+        error: false,
+      });
+      setTimeout(() => {
+        setAlert({});
+        navigate("/projects");
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -104,7 +153,7 @@ const ProjectProvider = ({ children }) => {
         alert,
         loading,
         project,
-        createProject,
+        submitProject,
         setAlert,
         showAlert,
         obtainProject,
