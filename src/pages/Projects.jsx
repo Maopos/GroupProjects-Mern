@@ -1,14 +1,18 @@
 import Project from "../components/ProjectCard";
 import useProject from "../hooks/useProject";
+import Message from "../components/Message";
 
 const Projects = () => {
-  const { projects } = useProject();
+  const { projects, alert, showAlert } = useProject();
+
+  const { txt } = alert;
 
   return (
     <div>
       <h1 className="text-4xl font-semibold text-white p-5 bg-sky-600 rounded shadow-lg shadow-gray-300">
         Projects
       </h1>
+      {txt && <Message message={alert} />}
       {projects.length ? (
         projects.map((i) => <Project key={i._id} project={i} />)
       ) : (

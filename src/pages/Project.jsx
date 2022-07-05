@@ -1,17 +1,24 @@
 import { Link, useParams } from "react-router-dom";
 import useProject from "../hooks/useProject";
 import { useEffect } from "react";
-import { VscEdit, VscTrash } from "react-icons/vsc";
+import { VscEdit, VscTrash, VscNewFile } from "react-icons/vsc";
+import dateFormat from "../helpers/dateFormat";
 
 const Project = () => {
   const params = useParams();
-  const { obtainProject, project, loading } = useProject();
+  const { obtainProject, project, loading, deleteProject } = useProject();
 
   useEffect(() => {
     obtainProject(params.id);
   }, []);
 
   const { name, description, client, deliveryDate } = project;
+
+  const handleDelete = () => {
+    if (confirm("Do you really want to delete this project?")) {
+      deleteProject(params.id);
+    }
+  };
 
   return loading ? (
     <span className="flex h-3 w-3">
@@ -20,32 +27,49 @@ const Project = () => {
     </span>
   ) : (
     <div>
-      <h2 className="text-4xl font-semibold text-white p-5 bg-sky-600 rounded shadow-lg shadow-gray-300">
-        {name}
-      </h2>
-      <div className="bg-white mt-2 shadow-lg shadow-gray-300 p-5 md:p-10 rounded">
-        <h3 className="text-2xl font-semibold text-sky-600">Client:</h3>
-        <p className="text-xl font-thin mb-2">{client}</p>
+      <div className="bg-sky-600 rounded shadow-lg shadow-gray-300 py-2 px-5">
+        <h2 className="text-4xl font-semibold text-white ">{name}</h2>
+        <p className="text-xl font-thin text-sky-100">{client}</p>
+      </div>
+      <div className="bg-white mt-2 shadow-lg shadow-gray-300 p-4 md:p-5 rounded ">
+        <p className="text-xl font-thin mb-2 text-justify mr-2">
+          <span className="text-xl font-semibold text-sky-600">
+            Description:
+          </span>{" "}
+          {description}
+        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-xl font-semibold text-sky-600">
+              Delivery Date:
+            </span>{" "}
+            <p className="text-xl font-thin mb-2">{dateFormat(deliveryDate)}</p>
+          </div>
 
-        <h3 className="text-2xl font-semibold text-sky-600">Description:</h3>
-        <p className="text-xl font-thin mb-2">{description}</p>
-
-        <h3 className="text-2xl font-semibold text-sky-600">Delivery Date:</h3>
-        <p className="text-xl font-thin mb-2">{deliveryDate}</p>
-
-        <div className="flex gap-1 mt-10">
-          <Link
-            to={`/projects/edit/${params.id}`}
-            className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
-          >
-            <VscEdit />
-          </Link>
-          <Link
-            to={`/projects`}
-            className="text-xl bg-red-600 text-white font-extralight p-2 rounded"
-          >
-            <VscTrash />
-          </Link>
+          <div className="flex gap-1">
+            <Link
+              to={`/projects/edit/${params.id}`}
+              className="text-xl bg-sky-600 text-white font-extralight p-2 rounded"
+            >
+              <VscNewFile />
+            </Link>
+            <Link
+              to={`/projects/edit/${params.id}`}
+              className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
+            >
+              <VscEdit />
+            </Link>
+            <button
+              className="text-xl bg-red-600 text-white font-extralight p-2 rounded"
+              onClick={handleDelete}
+            >
+              <VscTrash />
+            </button>
+          </div>
+        </div>
+        <hr />
+        <div className="py-5">
+          <h3 className="text-center text-sky-600 text-2xl">There aren't tasks yet...</h3>
         </div>
       </div>
     </div>
