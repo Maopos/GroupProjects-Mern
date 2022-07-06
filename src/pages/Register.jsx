@@ -47,7 +47,7 @@ const Register = () => {
       return;
     }
 
-    // Create user in Api
+    // Create user in DB
     try {
       const { data } = await clienteAxios.post("/users", {
         name,

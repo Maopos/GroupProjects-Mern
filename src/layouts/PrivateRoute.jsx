@@ -6,16 +6,12 @@ import SideBar from "../components/SideBar";
 const PrivateRoute = () => {
   const { loading, auth } = useAuth();
 
-  if (loading) {
-    return <h3>Loading...</h3>;
-  }
-
   return (
     <>
       {auth._id ? (
         <div className="bg-gray-100">
           <Header />
-          <div className="md:flex md:min-h-screen md:px-32">
+          <div className="md:flex md:min-h-screen md:px-10">
             <SideBar />
             <main className="flex-1 md:p-10 p-3">
               <Outlet />

@@ -25,15 +25,21 @@ const Login = () => {
       }, 2000);
       return;
     }
+
     try {
       const { data } = await clienteAxios.post("/users/login", {
         email,
         password,
       });
+
+      
       localStorage.setItem("token", data.token);
+
       setAuth(data);
-      navigate('/projects')
+      navigate("/projects");
     } catch (error) {
+      setEmail("");
+      setPassword("");
       setAlert({
         error: true,
         txt: error.response.data.msg,
@@ -43,8 +49,6 @@ const Login = () => {
       }, 2000);
     }
 
-    setEmail("");
-    setPassword("");
   };
 
   const { txt } = alert;

@@ -1,12 +1,16 @@
 import { Link, useParams } from "react-router-dom";
 import useProject from "../hooks/useProject";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { VscEdit, VscTrash, VscNewFile } from "react-icons/vsc";
 import dateFormat from "../helpers/dateFormat";
+import TaskModal from "../components/TaskModal";
 
 const Project = () => {
+  // States
+  const [modal, setModal] = useState(false);
+
   const params = useParams();
-  const { obtainProject, project, loading, deleteProject } = useProject();
+  const { obtainProject, project, loading, deleteProject, handleModalTask } = useProject();
 
   useEffect(() => {
     obtainProject(params.id);
@@ -47,12 +51,12 @@ const Project = () => {
           </div>
 
           <div className="flex gap-1">
-            <Link
-              to={`/projects/edit/${params.id}`}
+            <button
+              onClick={handleModalTask}
               className="text-xl bg-sky-600 text-white font-extralight p-2 rounded"
             >
               <VscNewFile />
-            </Link>
+            </button>
             <Link
               to={`/projects/edit/${params.id}`}
               className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
@@ -69,8 +73,12 @@ const Project = () => {
         </div>
         <hr />
         <div className="py-5">
-          <h3 className="text-center text-sky-600 text-2xl">There aren't tasks yet...</h3>
+          <h3 className="text-center text-sky-600 text-2xl">
+            There aren't tasks yet...
+          </h3>
         </div>
+
+        <TaskModal />
       </div>
     </div>
   );

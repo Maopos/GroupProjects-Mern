@@ -14,6 +14,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const authUser = async () => {
       const token = localStorage.getItem("token");
+      
 
       if (!token) {
         setLoading(false);
@@ -29,6 +30,7 @@ const AuthProvider = ({ children }) => {
 
       try {
         const { data } = await clienteAxios("/users/profile", config);
+
         setAuth(data);
         navigate('/projects')
       } catch (error) {

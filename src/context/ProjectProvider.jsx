@@ -8,6 +8,7 @@ const ProjectProvider = ({ children }) => {
   // States
   const [projects, setProjects] = useState([]);
   const [project, setProject] = useState({});
+  const [modalTask, setModalTask] = useState(false);
 
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(true);
@@ -92,7 +93,7 @@ const ProjectProvider = ({ children }) => {
       });
       setTimeout(() => {
         setAlert({});
-        navigate("/projects");
+        navigate(`/projects/${project.id}`);
       }, 1000);
     } catch (error) {
       console.log(error);
@@ -102,6 +103,7 @@ const ProjectProvider = ({ children }) => {
   // ! Obtain all projects
   useEffect(() => {
     const obtainProjects = async () => {
+      setLoading(true);
       try {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -119,6 +121,7 @@ const ProjectProvider = ({ children }) => {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     obtainProjects();
   }, []);
@@ -179,6 +182,10 @@ const ProjectProvider = ({ children }) => {
     setLoading(false);
   };
 
+  const handleModalTask = () => {
+    setModalTask(!modalTask);
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -186,11 +193,14 @@ const ProjectProvider = ({ children }) => {
         alert,
         loading,
         project,
+        modalTask,
         submitProject,
         setAlert,
         showAlert,
         obtainProject,
         deleteProject,
+        setLoading,
+        handleModalTask,
       }}
     >
       {children}
