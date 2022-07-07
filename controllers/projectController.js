@@ -3,7 +3,7 @@ import Task from "../models/Task.js";
 
 // ! *** Show All Projects ***
 const showAllProjects = async (req, res) => {
-  const projects = await Project.find().where("creator").equals(req.user);
+  const projects = await Project.find().where("creator").equals(req.user).select('-tasks');
   res.json(projects);
 };
 
@@ -22,7 +22,7 @@ const newProject = async (req, res) => {
 // ! *** Show One Project ***
 const showOneProject = async (req, res) => {
   const { id } = req.params;
-  const project = await Project.findById(id);
+  const project = await Project.findById(id).populate('tasks')
 
   if (!project) {
     const error = new Error("Project doesn`t exist...");
