@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import clienteAxios from "../config/clienteAxios";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const ProjectContext = createContext();
 
@@ -12,6 +13,8 @@ const ProjectProvider = ({ children }) => {
 
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const { auth } = useAuth();
 
   const navigate = useNavigate();
 
@@ -124,7 +127,7 @@ const ProjectProvider = ({ children }) => {
       setLoading(false);
     };
     obtainProjects();
-  }, []);
+  }, [auth]);
 
   // ! Obtain a project
   const obtainProject = async (id) => {
@@ -182,8 +185,37 @@ const ProjectProvider = ({ children }) => {
     setLoading(false);
   };
 
+  // ! Open / close ModalTask
   const handleModalTask = () => {
     setModalTask(!modalTask);
+  };
+
+  // ! Submit Task
+  const submitTask = async (task) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await clienteAxios.post("/tasks", task, config);
+      console.log(data);
+      handleModalTask();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ! sign out session
+  const signOutProjects = () => {
+    setProjects([]);
+    setProject({});
+    setAlert({});
   };
 
   return (
@@ -201,6 +233,8 @@ const ProjectProvider = ({ children }) => {
         deleteProject,
         setLoading,
         handleModalTask,
+        submitTask,
+        signOutProjects,
       }}
     >
       {children}

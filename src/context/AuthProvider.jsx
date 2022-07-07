@@ -14,7 +14,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const authUser = async () => {
       const token = localStorage.getItem("token");
-      
 
       if (!token) {
         setLoading(false);
@@ -32,7 +31,7 @@ const AuthProvider = ({ children }) => {
         const { data } = await clienteAxios("/users/profile", config);
 
         setAuth(data);
-        navigate('/projects')
+        navigate("/projects");
       } catch (error) {
         setAuth({});
       }
@@ -41,8 +40,13 @@ const AuthProvider = ({ children }) => {
     authUser();
   }, []);
 
+  // ! signOutAuth
+  const signOutAuth = () => {
+    setAuth({});
+  };
+
   return (
-    <AuthContext.Provider value={{ loading, auth, setAuth }}>
+    <AuthContext.Provider value={{ loading, auth, setAuth, signOutAuth }}>
       {children}
     </AuthContext.Provider>
   );

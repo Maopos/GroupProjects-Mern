@@ -1,6 +1,8 @@
 import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useProject from "../hooks/useProject";
+import Message from "../components/Message";
+import { useParams } from "react-router-dom";
 
 const PRIORITY = ["high", "medium", "low"];
 
@@ -9,19 +11,40 @@ const ModalFormularioTarea = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
 
-  const { modalTask, handleModalTask } = useProject();
+  const { modalTask, handleModalTask, alert, showAlert, submitTask, project } =
+    useProject();
+
+  const params = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if ([name, description, priority, deliveryDate].includes("")) {
+      showAlert({
+        txt: "All fields are required...",
+        error: true,
+      });
+      return;
+    }
 
     const newTask = {
       name,
       description,
       priority: priority[0].toLowerCase() + priority.slice(1),
+      deliveryDate,
+      project: params.id,
     };
-    console.log(newTask);
+
+    submitTask(newTask);
+    // showAlert({
+    //   txt: "Task added successfully...",
+    //   error: false,
+    // });
   };
+
+  const { txt } = alert;
 
   return (
     <Transition.Root show={modalTask} as={Fragment}>
@@ -144,6 +167,21 @@ const ModalFormularioTarea = () => {
                         ))}
                       </select>
                     </div>
+                    <div className="mt-5">
+                      <label
+                        htmlFor="delivery-date"
+                        className="text-sky-600 text-lg font-semibold"
+                      >
+                        Delivery Date
+                      </label>
+                      <input
+                        id="delivery-date"
+                        type="Date"
+                        className="w-full border bg-sky-50 p-2 rounded"
+                        value={deliveryDate}
+                        onChange={(e) => setDeliveryDate(e.target.value)}
+                      />
+                    </div>
                     <button
                       className="text-white bg-sky-600 rounded p-2 w-full block text-center mt-5 
                             shadow-lg shadow-gray-300 hover:bg-sky-700 transition-colors"
@@ -151,6 +189,7 @@ const ModalFormularioTarea = () => {
                       Save Task
                     </button>
                   </form>
+                  {txt && <Message message={alert} />}
                 </div>
               </div>
             </div>

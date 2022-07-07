@@ -1,7 +1,22 @@
 import { Link } from "react-router-dom";
 import logo from "../img/logo.gif";
+import useAuth from "../hooks/useAuth";
+import useProject from "../hooks/useProject";
 
 const Header = () => {
+  // hooks
+  const { signOutAuth } = useAuth();
+  const { signOutProjects } = useProject();
+
+  const handleSignOut = () => {
+    
+    if (confirm('Do you really want to sign out...?')) {
+      signOutAuth();
+      signOutProjects();
+      localStorage.removeItem("token");
+    }
+  };
+
   return (
     <header className="p-2 bg-white shadow-lg shadow-gray-200">
       <div className="md:flex md:justify-between items-center">
@@ -32,8 +47,9 @@ const Header = () => {
             type="button"
             className="text-white text-sm bg-sky-600 rounded px-8 py-1 shadow-lg shadow-gray-300 
             hover:bg-sky-700 transition-colors"
+            onClick={handleSignOut}
           >
-            Sign Out ⇥
+            Sign Out
           </button>
         </div>
       </div>

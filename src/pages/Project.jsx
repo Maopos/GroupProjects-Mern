@@ -16,6 +16,8 @@ const Project = () => {
     obtainProject(params.id);
   }, []);
 
+  console.log(project);
+
   const { name, description, client, deliveryDate } = project;
 
   const handleDelete = () => {
