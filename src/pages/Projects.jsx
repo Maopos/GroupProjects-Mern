@@ -1,11 +1,10 @@
 import Project from "../components/ProjectCard";
 import useProject from "../hooks/useProject";
 import Message from "../components/Message";
-import { useState, useEffect } from "react";
 import clienteAxios from "../config/clienteAxios";
 
 const Projects = () => {
-  const { alert, loading, projects } = useProject();
+  const { alert, projects } = useProject();
 
   const { txt } = alert;
 

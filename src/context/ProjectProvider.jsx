@@ -204,7 +204,12 @@ const ProjectProvider = ({ children }) => {
         },
       };
       const { data } = await clienteAxios.post("/tasks", task, config);
-      console.log(data);
+
+      // Sincronice state when add a task
+      const updatedProject = { ...project };
+      updatedProject.tasks = [...project.tasks, data];
+      setProject(updatedProject)
+
       handleModalTask();
     } catch (error) {
       console.log(error);

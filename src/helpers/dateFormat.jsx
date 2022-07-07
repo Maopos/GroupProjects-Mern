@@ -1,6 +1,7 @@
-const formatDate = (date) => {
-    const newDate = new Date(date);
+const dateFormat = (date) => {
+    const newDate = new Date(date.split('T')[0].split('-'));
     const options = {
+      weekday: 'long',
       year: "numeric",
       month: "long",
       day: "2-digit",
@@ -9,4 +10,4 @@ const formatDate = (date) => {
     return newDate.toLocaleString("es-ES", options);
   };
   
-  export default formatDate;
+  export default dateFormat;

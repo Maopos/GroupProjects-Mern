@@ -27,13 +27,13 @@ const ProjectCard = ({ project }) => {
       <div className="flex gap-1">
         <Link
           to={`${_id}`}
-          className="text-xl bg-sky-600 text-white font-extralight p-2 rounded"
+          className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
         >
           <VscGoToFile />
         </Link>
         <Link
           to={`/projects/edit/${_id}`}
-          className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
+          className="text-xl bg-sky-600 text-white font-extralight p-2 rounded"
           onClick={handleEdit}
         >
           <VscEdit />
