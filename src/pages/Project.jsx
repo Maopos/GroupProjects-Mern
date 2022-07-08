@@ -1,11 +1,14 @@
 import { Link, useParams } from "react-router-dom";
 import useProject from "../hooks/useProject";
 import { useEffect } from "react";
-import { VscTrash, VscNewFile } from "react-icons/vsc";
-import { RiEdit2Line } from "react-icons/ri";
+
 import dateFormat from "../helpers/dateFormat";
 import TaskModal from "../components/TaskModal";
 import TaskCard from "../components/TaskCard";
+
+import { VscTrash, VscNewFile } from "react-icons/vsc";
+import { RiEdit2Line } from "react-icons/ri";
+import { MdPendingActions, MdDoneAll } from "react-icons/md";
 
 const Project = () => {
   const params = useParams();
@@ -32,8 +35,36 @@ const Project = () => {
   ) : (
     <div>
       <div className="bg-sky-600 rounded shadow-lg shadow-gray-300 py-2 px-5">
-        <h2 className="text-4xl font-semibold text-white ">{name}</h2>
-        <p className="text-xl font-thin text-sky-100">{client}</p>
+        <div className="flex justify-between">
+          <div>
+            <h2 className="text-4xl font-semibold text-white ">{name}</h2>
+            <p className="text-xl font-thin text-sky-100">{client}</p>
+          </div>
+          <div>
+            <div className="flex gap-2 items-center justify-end">
+              <p className="text-xl text-white">
+                {tasks?.filter((i) => i.state === true).length}
+              </p>
+              <button
+                title="Completed Tasks!"
+                className={`text-xl text-emerald-900 bg-emerald-300 font-extralight p-2 rounded`}
+              >
+                <MdDoneAll />
+              </button>
+            </div>
+            <div className="flex gap-2 items-center justify-end mt-2">
+              <p className="text-xl text-white">
+                {tasks?.filter((i) => i.state === false).length}
+              </p>
+              <button
+                title="Pending Tasks!"
+                className={`text-xl text-yellow-900 bg-yellow-300 font-extralight p-2 rounded`}
+              >
+                <MdPendingActions />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="bg-white mt-2 shadow-lg shadow-gray-300 py-4 px-2 md:p-5 rounded ">
         <p className="text-xl font-thin mb-2 text-justify mr-2">
@@ -68,7 +99,7 @@ const Project = () => {
               <RiEdit2Line />
             </Link>
             <button
-              title="Delete Project"  
+              title="Delete Project"
               aria-orientation="vertical"
               className="text-xl bg-red-300 text-red-900 font-extralight p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5"
               onClick={handleDelete}

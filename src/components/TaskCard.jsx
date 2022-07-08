@@ -55,7 +55,7 @@ const TaskCard = ({ task }) => {
           </button>
         ) : (
           <button
-            title="Toggle to Done!"
+            title="Toggle to Completed!"
             className={`text-xl bg-yellow-200 text-yellow-900 font-extralight p-2 rounded active:shadow-sm active:shadow-gray-500 active:relative active:top-0.5 shadow-lg shadow-gray-300`}
           >
             <MdPendingActions />
