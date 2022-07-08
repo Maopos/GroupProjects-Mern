@@ -32,7 +32,6 @@ const Login = () => {
         password,
       });
 
-      
       localStorage.setItem("token", data.token);
 
       setAuth(data);
@@ -48,13 +47,13 @@ const Login = () => {
         setAlert({});
       }, 2000);
     }
-
   };
 
   const { txt } = alert;
 
   return (
     <>
+
       <h3 className="text-sky-600 text-center font-thin text-4xl mb-2">
         Log in and manage your{" "}
         <span className="text-slate-700 font-extralightlight">Projects.</span>{" "}
@@ -76,7 +75,7 @@ const Login = () => {
             name=""
             type="email"
             placeholder="Email address"
-            className="w-full shadow-md border mt-1 p-3 rounded font-thin"
+            className="w-full shadow-md border mt-1 p-3 rounded font-thin placeholder:italic placeholder:text-slate-400"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -93,7 +92,7 @@ const Login = () => {
             name=""
             type="password"
             placeholder="Password"
-            className="w-full shadow-md border mt-1 p-3 rounded font-thin"
+            className="w-full shadow-md border mt-1 p-3 rounded font-thin placeholder:italic placeholder:text-slate-400"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

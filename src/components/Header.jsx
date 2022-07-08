@@ -9,8 +9,7 @@ const Header = () => {
   const { signOutProjects } = useProject();
 
   const handleSignOut = () => {
-    
-    if (confirm('Do you really want to sign out...?')) {
+    if (confirm("Do you really want to sign out...?")) {
       signOutAuth();
       signOutProjects();
       localStorage.removeItem("token");
@@ -36,17 +35,18 @@ const Header = () => {
         />
         <div className="flex items-center gap-3 justify-between">
           <div>
-            <Link
-              to="/projects"
-              className="text-2xl text-sky-600 font-semibold"
-            >
-              ← Projects
+            <Link to="/projects">
+              <button
+                className="text-white hover:text-sky-900 text-sm hover:bg-sky-300 rounded px-8 py-1 shadow-lg shadow-gray-300 bg-sky-600 transition-colors font-light"
+              >
+                Projects
+              </button>
             </Link>
           </div>
           <button
             type="button"
-            className="text-white text-sm bg-sky-600 rounded px-8 py-1 shadow-lg shadow-gray-300 
-            hover:bg-sky-700 transition-colors"
+            className="text-sky-900 text-sm bg-sky-300 rounded px-8 py-1 shadow-lg shadow-gray-300 
+            hover:bg-sky-600 hover:text-white transition-colors font-light"
             onClick={handleSignOut}
           >
             Sign Out

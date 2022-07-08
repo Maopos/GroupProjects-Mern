@@ -8,17 +8,34 @@ const PRIORITY = ["high", "medium", "low"];
 
 const ModalFormularioTarea = () => {
   // States
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
 
-  const { modalTask, handleModalTask, alert, showAlert, submitTask } =
+  const { modalTask, handleModalTask, alert, showAlert, submitTask, task } =
     useProject();
 
   const params = useParams();
 
-  const handleSubmit = async(e) => {
+  useEffect(() => {
+    if (task?._id) {
+      setId(task._id);
+      setName(task.name);
+      setDescription(task.description);
+      setPriority(task.priority[0].toUpperCase() + task.priority.slice(1));
+      setDeliveryDate(task.deliveryDate?.split("T")[0]);
+      return;
+    }
+    setId("");
+    setName("");
+    setDescription("");
+    setPriority("");
+    setDeliveryDate("");
+  }, [task]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if ([name, description, priority, deliveryDate].includes("")) {
@@ -30,6 +47,7 @@ const ModalFormularioTarea = () => {
     }
 
     const newTask = {
+      id,
       name,
       description,
       priority: priority[0].toLowerCase() + priority.slice(1),
@@ -39,6 +57,7 @@ const ModalFormularioTarea = () => {
 
     await submitTask(newTask);
 
+    setId("");
     setName("");
     setDescription("");
     setPriority("");
@@ -113,7 +132,7 @@ const ModalFormularioTarea = () => {
                     as="h3"
                     className="text-lg font-semibold text-white bg-sky-600 p-2 rounded"
                   >
-                    Create Task
+                    {id ? "Edit Task" : "Create Task"}
                   </Dialog.Title>
                   <form onSubmit={handleSubmit}>
                     <div className="mt-5">
@@ -187,7 +206,7 @@ const ModalFormularioTarea = () => {
                       className="text-white bg-sky-600 rounded p-2 w-full block text-center mt-5 
                             shadow-lg shadow-gray-300 hover:bg-sky-700 transition-colors"
                     >
-                      Save Task
+                      {id ? "Save Changes" : "Save New Task"}
                     </button>
                   </form>
                   {txt && <Message message={alert} />}

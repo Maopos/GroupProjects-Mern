@@ -1,7 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import useProject from "../hooks/useProject";
 import { useEffect } from "react";
-import { VscEdit, VscTrash, VscNewFile } from "react-icons/vsc";
+import { VscTrash, VscNewFile } from "react-icons/vsc";
+import { RiEdit2Line } from "react-icons/ri";
 import dateFormat from "../helpers/dateFormat";
 import TaskModal from "../components/TaskModal";
 import TaskCard from "../components/TaskCard";
@@ -46,24 +47,30 @@ const Project = () => {
             <span className="text-xl font-semibold text-sky-600">
               Delivery Date:
             </span>{" "}
-            <p className="text-xl font-thin mb-2">{deliveryDate && dateFormat(deliveryDate)}</p>
+            <p className="text-xl font-thin mb-2">
+              {deliveryDate && dateFormat(deliveryDate)}
+            </p>
           </div>
 
           <div className="flex gap-1">
             <button
+              title="New Task"
               onClick={handleModalTask}
-              className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
+              className="text-xl bg-emerald-400 text-emerald-900 font-extralight p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5"
             >
               <VscNewFile />
             </button>
             <Link
+              title="Edit Project"
               to={`/projects/edit/${params.id}`}
-              className="text-xl bg-sky-600 text-white font-extralight p-2 rounded"
+              className="text-xl bg-sky-300 text-sky-900 font-extralight p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5"
             >
-              <VscEdit />
+              <RiEdit2Line />
             </Link>
             <button
-              className="text-xl bg-red-600 text-white font-extralight p-2 rounded"
+              title="Delete Project"  
+              aria-orientation="vertical"
+              className="text-xl bg-red-300 text-red-900 font-extralight p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5"
               onClick={handleDelete}
             >
               <VscTrash />
@@ -78,12 +85,13 @@ const Project = () => {
             tasks.map((i) => <TaskCard key={i._id} task={i} />)
           ) : (
             <div className="flex gap-3 items-center justify-center mt-10 ">
-              <h3 className="text-center text-lg font-thin text-green-600">
+              <h3 className="text-center text-lg font-thin text-emerald-600">
                 Add a task...
               </h3>
               <button
+                title="New Task"
                 onClick={handleModalTask}
-                className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
+                className="text-xl bg-emerald-400 text-emerald-900 font-extralight p-2 rounded shadow-md shadow-gray-300"
               >
                 <VscNewFile />
               </button>
@@ -91,6 +99,7 @@ const Project = () => {
           )}
         </div>
 
+        {/* ! Modal */}
         <TaskModal />
       </div>
     </div>

@@ -9,6 +9,8 @@ const ProjectProvider = ({ children }) => {
   // States
   const [projects, setProjects] = useState([]);
   const [project, setProject] = useState({});
+  const [task, setTask] = useState({});
+
   const [modalTask, setModalTask] = useState(false);
 
   const [alert, setAlert] = useState({});
@@ -188,10 +190,20 @@ const ProjectProvider = ({ children }) => {
   // ! Open / close ModalTask
   const handleModalTask = () => {
     setModalTask(!modalTask);
+    setTask({});
   };
 
   // ! Submit Task
   const submitTask = async (task) => {
+    if (task?.id) {
+      await editTask(task);
+    } else {
+      await createTask(task);
+    }
+  };
+
+  // ! Create Task
+  const createTask = async (task) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -208,12 +220,50 @@ const ProjectProvider = ({ children }) => {
       // Sincronice state when add a task
       const updatedProject = { ...project };
       updatedProject.tasks = [...project.tasks, data];
-      setProject(updatedProject)
+      setProject(updatedProject);
 
       handleModalTask();
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // ! Edit Task
+  const editTask = async (task) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await clienteAxios.put(
+        `/tasks/${task.id}`,
+        task,
+        config
+      );
+
+      // Sincronice state when add a task
+      const updatedProject = { ...project };
+      updatedProject.tasks = updatedProject.tasks.map((i) =>
+        i._id === data._id ? data : i
+      );
+      setProject(updatedProject);
+
+      handleModalTask();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ! Open Modal in edit task mode
+  const handleModalEditTask = (task) => {
+    setTask(task);
+    setModalTask(true);
   };
 
   // ! sign out session
@@ -231,6 +281,7 @@ const ProjectProvider = ({ children }) => {
         loading,
         project,
         modalTask,
+        task,
         submitProject,
         setAlert,
         showAlert,
@@ -238,6 +289,7 @@ const ProjectProvider = ({ children }) => {
         deleteProject,
         setLoading,
         handleModalTask,
+        handleModalEditTask,
         submitTask,
         signOutProjects,
       }}

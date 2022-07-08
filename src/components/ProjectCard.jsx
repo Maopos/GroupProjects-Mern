@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { VscGoToFile, VscEdit, VscTrash } from "react-icons/vsc";
+import { VscGoToFile, VscTrash } from "react-icons/vsc";
+import { RiEdit2Line } from "react-icons/ri";
 import useProject from "../hooks/useProject";
 
 const ProjectCard = ({ project }) => {
@@ -27,19 +28,19 @@ const ProjectCard = ({ project }) => {
       <div className="flex gap-1">
         <Link
           to={`${_id}`}
-          className="text-xl bg-green-600 text-white font-extralight p-2 rounded"
+          className="text-xl bg-emerald-300 text-emerald-900 font-thin p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5"
         >
           <VscGoToFile />
         </Link>
         <Link
           to={`/projects/edit/${_id}`}
-          className="text-xl bg-sky-600 text-white font-extralight p-2 rounded"
+          className="text-xl bg-sky-300 text-sky-900 font-thin p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5"
           onClick={handleEdit}
         >
-          <VscEdit />
+          <RiEdit2Line />
         </Link>
         <button
-          className="text-xl bg-red-600 text-white font-extralight p-2 rounded"
+          className="text-xl bg-red-300 text-red-900 font-thin p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5"
           onClick={handleDelete}
         >
           <VscTrash />
