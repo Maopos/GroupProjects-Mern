@@ -7,7 +7,7 @@ import useProject from "../hooks/useProject";
 const TaskCard = ({ task }) => {
   const { name, description, priority, deliveryDate, state, _id } = task;
 
-  const { handleModalEditTask } = useProject();
+  const { handleModalEditTask, handleModalDeleteTask } = useProject();
 
   let color;
   let text;
@@ -49,7 +49,7 @@ const TaskCard = ({ task }) => {
         {state ? (
           <button
             title="Toggle to Pending!"
-            className={`text-xl text-emerald-900 bg-emerald-300 font-extralight p-2 rounded active:relative active:top-0.5 shadow-lg shadow-gray-300`}
+            className={`text-xl text-emerald-900 bg-emerald-300 font-extralight p-2 rounded active:relative active:shadow-gray-500 active:shadow-sm  active:top-0.5 shadow-lg shadow-gray-300`}
           >
             <MdDoneAll />
           </button>
@@ -72,6 +72,7 @@ const TaskCard = ({ task }) => {
         <button
           title="Delete Task"
           className="text-xl bg-red-300 text-red-900 font-extralight p-2 rounded shadow-lg shadow-gray-300"
+          onClick={() => handleModalDeleteTask(task)}
         >
           <VscTrash />
         </button>

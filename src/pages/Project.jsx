@@ -3,8 +3,11 @@ import useProject from "../hooks/useProject";
 import { useEffect } from "react";
 
 import dateFormat from "../helpers/dateFormat";
-import TaskModal from "../components/TaskModal";
 import TaskCard from "../components/TaskCard";
+import Message from "../components/Message";
+
+import TaskModal from "../components/TaskModal";
+import DeleteTaskModal from "../components/DeleteTaskModal";
 
 import { VscTrash, VscNewFile } from "react-icons/vsc";
 import { RiEdit2Line } from "react-icons/ri";
@@ -12,8 +15,14 @@ import { MdPendingActions, MdDoneAll } from "react-icons/md";
 
 const Project = () => {
   const params = useParams();
-  const { obtainProject, project, loading, deleteProject, handleModalTask } =
-    useProject();
+  const {
+    obtainProject,
+    project,
+    loading,
+    deleteProject,
+    handleModalTask,
+    alert,
+  } = useProject();
 
   useEffect(() => {
     obtainProject(params.id);
@@ -26,6 +35,8 @@ const Project = () => {
       deleteProject(params.id);
     }
   };
+
+  const { txt } = alert;
 
   return loading ? (
     <span className="flex h-3 w-3">
@@ -111,7 +122,7 @@ const Project = () => {
         <hr />
         <div className="py-5">
           <h3 className="text-xl font-semibold text-sky-600">Project Tasks:</h3>
-
+          {txt && <Message message={alert} />}
           {tasks?.length ? (
             tasks.map((i) => <TaskCard key={i._id} task={i} />)
           ) : (
@@ -130,8 +141,9 @@ const Project = () => {
           )}
         </div>
 
-        {/* ! Modal */}
+        {/* ! Modals */}
         <TaskModal />
+        <DeleteTaskModal />
       </div>
     </div>
   );

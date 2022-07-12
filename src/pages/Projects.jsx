@@ -1,7 +1,7 @@
 import Project from "../components/ProjectCard";
 import useProject from "../hooks/useProject";
 import Message from "../components/Message";
-import clienteAxios from "../config/clienteAxios";
+
 
 const Projects = () => {
   const { alert, projects } = useProject();

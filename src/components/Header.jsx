@@ -36,9 +36,7 @@ const Header = () => {
         <div className="flex items-center gap-3 justify-between">
           <div>
             <Link to="/projects">
-              <button
-                className="text-white hover:text-sky-900 text-sm hover:bg-sky-300 rounded px-8 py-1 shadow-lg shadow-gray-300 bg-sky-600 transition-colors font-light"
-              >
+              <button className="text-white hover:text-sky-900 text-sm hover:bg-sky-300 rounded px-8 py-1 shadow-lg shadow-gray-300 bg-sky-600 transition-colors font-light active:shadow-sm active:shadow-gray-500 active:relative active:top-1">
                 Projects
               </button>
             </Link>
@@ -46,7 +44,7 @@ const Header = () => {
           <button
             type="button"
             className="text-sky-900 text-sm bg-sky-300 rounded px-8 py-1 shadow-lg shadow-gray-300 
-            hover:bg-sky-600 hover:text-white transition-colors font-light"
+            hover:bg-sky-600 hover:text-white transition-colors font-light active:shadow-sm active:shadow-gray-500 active:relative active:top-1"
             onClick={handleSignOut}
           >
             Sign Out

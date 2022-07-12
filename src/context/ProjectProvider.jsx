@@ -6,12 +6,14 @@ import useAuth from "../hooks/useAuth";
 const ProjectContext = createContext();
 
 const ProjectProvider = ({ children }) => {
-  // States
+  // * States
   const [projects, setProjects] = useState([]);
   const [project, setProject] = useState({});
   const [task, setTask] = useState({});
 
+  // * Modals
   const [modalTask, setModalTask] = useState(false);
+  const [modalDeleteTask, setModalDeleteTask] = useState(false);
 
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(true);
@@ -255,6 +257,11 @@ const ProjectProvider = ({ children }) => {
       setProject(updatedProject);
 
       handleModalTask();
+
+      showAlert({
+        txt: `${task.name} was edited succesfully...!`,
+        error: false,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -273,6 +280,45 @@ const ProjectProvider = ({ children }) => {
     setAlert({});
   };
 
+  // ! Open Modal in delete Task
+  const handleModalDeleteTask = (task) => {
+    setTask(task);
+    setModalDeleteTask(!modalDeleteTask);
+  };
+
+  // ! Delete Task
+  const deleteTask = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clienteAxios.delete(`/tasks/${task._id}`, config);
+      showAlert({
+        txt: data.msg,
+        error: true,
+      });
+
+      const updatedProject = { ...project };
+      updatedProject.tasks = updatedProject.tasks.filter(
+        (i) => i._id !== task._id
+      );
+
+      setProject(updatedProject);
+      setModalDeleteTask(false);
+      setTask({});
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -282,6 +328,7 @@ const ProjectProvider = ({ children }) => {
         project,
         modalTask,
         task,
+        modalDeleteTask,
         submitProject,
         setAlert,
         showAlert,
@@ -292,6 +339,8 @@ const ProjectProvider = ({ children }) => {
         handleModalEditTask,
         submitTask,
         signOutProjects,
+        handleModalDeleteTask,
+        deleteTask,
       }}
     >
       {children}
