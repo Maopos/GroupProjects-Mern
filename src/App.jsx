@@ -16,6 +16,7 @@ import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 import Project from "./pages/Project";
 import EditProject from "./pages/EditProject";
+import NewCollab from "./pages/NewCollab";
 
 // ! Providers
 import { AuthProvider } from "./context/AuthProvider";
@@ -40,6 +41,7 @@ const App = () => {
               <Route path="createproject" element={<NewProject />}></Route>
               <Route path=":id" element={<Project />}></Route>
               <Route path="edit/:id" element={<EditProject />}></Route>
+              <Route path="newcollab/:id" element={<NewCollab />}></Route>
             </Route>
           </Routes>
         </ProjectProvider>

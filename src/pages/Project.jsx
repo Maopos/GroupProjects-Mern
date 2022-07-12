@@ -12,6 +12,7 @@ import DeleteTaskModal from "../components/DeleteTaskModal";
 import { VscTrash, VscNewFile } from "react-icons/vsc";
 import { RiEdit2Line } from "react-icons/ri";
 import { MdPendingActions, MdDoneAll } from "react-icons/md";
+import { AiOutlineUserAdd } from "react-icons/ai";
 
 const Project = () => {
   const params = useParams();
@@ -84,6 +85,21 @@ const Project = () => {
           </span>{" "}
           {description}
         </p>
+        <div className="flex justify-between">
+          <p className="text-xl font-thin mb-2 text-justify mr-2">
+            <span className="text-xl font-semibold text-sky-600">
+              Collaborators:
+            </span>{" "}
+          </p>
+          <Link
+            to={`/projects/newcollab/${2}`}
+            className={
+              "text-xl text-orange-900 bg-orange-300 font-extralight p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5 active:shadow-sm active:shadow-gray-600"
+            }
+          >
+            <AiOutlineUserAdd />
+          </Link>
+        </div>
         <div className="flex items-center justify-between">
           <div>
             <span className="text-xl font-semibold text-sky-600">
