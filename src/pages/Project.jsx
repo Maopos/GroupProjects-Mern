@@ -40,10 +40,12 @@ const Project = () => {
   const { txt } = alert;
 
   return loading ? (
-    <span className="flex h-3 w-3">
-      <span className="animate-ping absolute inline-flex h-96 w-96 rounded-full bg-sky-400 opacity-75"></span>
-      <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-    </span>
+    <div className="flex items-center justify-center mt-56">
+      <span className="flex h-3 w-3 items-center justify-center">
+        <span className="animate-ping absolute inline-flex h-96 w-96 rounded-full bg-sky-400 opacity-10"></span>
+        <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+      </span>
+    </div>
   ) : (
     <div>
       <div className="bg-sky-600 rounded shadow-lg shadow-gray-300 py-2 px-5">
@@ -92,7 +94,7 @@ const Project = () => {
             </span>{" "}
           </p>
           <Link
-            to={`/projects/newcollab/${2}`}
+            to={`/projects/newcollab/${params.id}`}
             className={
               "text-xl text-orange-900 bg-orange-300 font-extralight p-2 rounded shadow-md shadow-gray-300 active:relative active:top-0.5 active:shadow-sm active:shadow-gray-600"
             }

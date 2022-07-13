@@ -10,11 +10,13 @@ const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [project, setProject] = useState({});
   const [task, setTask] = useState({});
+  const [collab, setCollab] = useState({});
 
   // * Modals
   const [modalTask, setModalTask] = useState(false);
   const [modalDeleteTask, setModalDeleteTask] = useState(false);
 
+  // * Alerts
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -22,6 +24,7 @@ const ProjectProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
+  // ! Alerts
   const showAlert = (alert) => {
     setAlert(alert);
     setTimeout(() => {
@@ -319,6 +322,42 @@ const ProjectProvider = ({ children }) => {
     }
   };
 
+  // ! Add Collaborator
+  const submitCollaborator = async (email) => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clienteAxios.post(
+        "/projects/collabs",
+        { email },
+        config
+      );
+      setCollab(data);
+      setAlert({});
+    } catch (error) {
+      showAlert({
+        txt: error.response.data.msg,
+        error: true,
+      });
+      setCollab({});
+    }
+    setLoading(false);
+  };
+
+  const addCollab = async (email) => {
+    console.log(email);
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -329,6 +368,7 @@ const ProjectProvider = ({ children }) => {
         modalTask,
         task,
         modalDeleteTask,
+        collab,
         submitProject,
         setAlert,
         showAlert,
@@ -341,6 +381,9 @@ const ProjectProvider = ({ children }) => {
         signOutProjects,
         handleModalDeleteTask,
         deleteTask,
+        submitCollaborator,
+        setCollab,
+        addCollab,
       }}
     >
       {children}
