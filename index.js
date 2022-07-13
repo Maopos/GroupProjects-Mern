@@ -34,7 +34,7 @@ const corsOptions = {
     }
   },
 };
-app.use(cors());
+app.use(cors(corsOptions));
 
 // 9. create directory models/User.js
 

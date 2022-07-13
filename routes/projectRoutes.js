@@ -5,6 +5,7 @@ import {
   showOneProject,
   editProject,
   deleteProject,
+  findCollaborator,
   addCollaborator,
   deleteCollaborator,
 } from "../controllers/projectController.js";
@@ -17,7 +18,9 @@ projectRouter.post("/", checkAuth, newProject);
 projectRouter.get("/:id", checkAuth, showOneProject);
 projectRouter.put("/:id", checkAuth, editProject);
 projectRouter.delete("/:id", checkAuth, deleteProject);
-projectRouter.post("/add-collaborator/:id", checkAuth, addCollaborator);
-projectRouter.post("/delete-collaborator/:id", checkAuth, deleteCollaborator);
+
+projectRouter.post("/collabs", checkAuth, findCollaborator);
+projectRouter.post("/collabs/:id", checkAuth, addCollaborator);
+projectRouter.delete("/collabs/:id", checkAuth, deleteCollaborator);
 
 export default projectRouter;

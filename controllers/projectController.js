@@ -1,9 +1,12 @@
 import Project from "../models/Project.js";
-import Task from "../models/Task.js";
+import User from "../models/User.js";
 
 // ! *** Show All Projects ***
 const showAllProjects = async (req, res) => {
-  const projects = await Project.find().where("creator").equals(req.user).select('-tasks');
+  const projects = await Project.find()
+    .where("creator")
+    .equals(req.user)
+    .select("-tasks");
   res.json(projects);
 };
 
@@ -22,7 +25,7 @@ const newProject = async (req, res) => {
 // ! *** Show One Project ***
 const showOneProject = async (req, res) => {
   const { id } = req.params;
-  const project = await Project.findById(id).populate('tasks')
+  const project = await Project.findById(id).populate("tasks");
 
   if (!project) {
     const error = new Error("Project doesn`t exist...");
@@ -84,6 +87,23 @@ const deleteProject = async (req, res) => {
   }
 };
 
+// ! *** Find Collaborator ***
+const findCollaborator = async (req, res) => {
+  const { email } = req.body;
+  const collab = await User.findOne({ email }).select('-token -password -createdAt -updatedAt -__v -confirm');
+
+  if (!collab) {
+    const error = new Error("User doesn`t exist...");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  try {
+    res.json(collab);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // ! *** Add Collaborator ***
 const addCollaborator = async (req, res) => {};
 
@@ -96,6 +116,7 @@ export {
   showOneProject,
   editProject,
   deleteProject,
+  findCollaborator,
   addCollaborator,
   deleteCollaborator,
 };
