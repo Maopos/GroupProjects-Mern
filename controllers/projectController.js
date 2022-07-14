@@ -31,6 +31,8 @@ const showOneProject = async (req, res) => {
     const error = new Error("Project doesn`t exist...");
     return res.status(404).json({ msg: error.message });
   }
+
+  // *  This is a security check to make sure that the user is the creator of the project.
   if (project.creator.toString() !== req.user._id.toString()) {
     const error = new Error("Invalid action...");
     return res.status(404).json({ msg: error.message });
@@ -90,7 +92,9 @@ const deleteProject = async (req, res) => {
 // ! *** Find Collaborator ***
 const findCollaborator = async (req, res) => {
   const { email } = req.body;
-  const collab = await User.findOne({ email }).select('-token -password -createdAt -updatedAt -__v -confirm');
+  const collab = await User.findOne({ email }).select(
+    "-token -password -createdAt -updatedAt -__v -confirm"
+  );
 
   if (!collab) {
     const error = new Error("User doesn`t exist...");
@@ -105,7 +109,53 @@ const findCollaborator = async (req, res) => {
 };
 
 // ! *** Add Collaborator ***
-const addCollaborator = async (req, res) => {};
+const addCollaborator = async (req, res) => {
+  const project = await Project.findById(req.params.id);
+
+  // * This is a security check to make sure that the project exists. */
+  if (!project) {
+    const error = new Error("Project doesn`t exist...");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  // *  This is a security check to make sure that the user is the creator of the project.
+  if (project.creator.toString() !== req.user._id.toString()) {
+    const error = new Error("Invalid action...");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  const collab = await User.findOne(req.body).select(
+    "-token -password -createdAt -updatedAt -__v -confirm"
+  );
+
+  if (!collab) {
+    const error = new Error("User doesn`t exist...");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  if (project.creator.toString() === collab._id.toString()) {
+    const error = new Error(
+      "The creator of the project is already collaborating on it..."
+    );
+    return res.status(404).json({ msg: error.message });
+  }
+
+  /* This is a security check to make sure that the user is not already collaborating on the project. */
+  if (project.collaborators.includes(collab._id)) {
+    const error = new Error(
+      `${collab.name.split(" ")[0]} is already collaborating on ${
+        project.name
+      }...`
+    );
+    return res.status(404).json({ msg: error.message });
+  }
+
+  project.collaborators.push(collab);
+  await project.save();
+
+  // * Sending the project to the frontend. */
+  res.send({ msg: `${collab.name} is collaborating in ${project.name}...` });
+};
 
 // ! *** Delete Collaborator ***
 const deleteCollaborator = async (req, res) => {};
