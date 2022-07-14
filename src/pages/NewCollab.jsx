@@ -44,7 +44,7 @@ const NewCollab = () => {
               <h2 htmlFor="email" className="text-sky-600 text-xl">
                 {collab?.name}
               </h2>
-              <h2>{collab?.email}</h2>
+              <h2 className="font-thin">{collab?.email}</h2>
             </div>
             <div className="flex gap-2">
               <button
